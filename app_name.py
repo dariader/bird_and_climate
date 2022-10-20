@@ -2,9 +2,9 @@ import dash
 from dash import Dash, dcc, html, Input, Output
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-server = app.server
-app.layout = html.Div([
+app_class = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app_class.server
+app_class.layout = html.Div([
     html.H2('Hello World'),
     dcc.Dropdown(['LA', 'NYC', 'MTL'],
                  'LA',
@@ -14,4 +14,4 @@ app.layout = html.Div([
 ])
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app_class.run_server(debug=True)
