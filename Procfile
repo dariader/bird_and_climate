@@ -1,1 +1,1 @@
-heroku local:run rails console
+web: gunicorn app:server
