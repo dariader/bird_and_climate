@@ -18,7 +18,5 @@ app.layout = html.Div([
 def display_value(value):
     return f'You have selected {value}'
 
-print('5')
-
 if __name__ == '__main__':
     app.run_server(debug=True)
