@@ -27,7 +27,7 @@ jobs:
         run: |
           docker build \
             --cache-from ${{ env.IMAGE }}:version0 \
-            --tag ${{ env.IMAGE }}:version0 \
+            --tag version0 \
             --file ./src/Dockerfile.prod \
             "./src"
       - name: Push image
