@@ -44,3 +44,7 @@ Data:
 
 chmod +x run_app.sh
 This will create project and push changes to the remote heroku repository
+
+**How to dockerize**
+
+sudo docker build -t docker_bird_and_climate ./src
