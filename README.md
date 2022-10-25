@@ -37,3 +37,9 @@ Data:
     "date" - We will only use records between 1965 and 2015 because that matches our climate dataset.
 2) We can find the CRS string for any specific projection at spatialreference.org.
 5) We will use data from the Global Biodiversity Information Facility and a subset of the UKCP09 climate data from the UK Met Office.
+
+
+**How to run in heroku**
+
+chmod +x run_app.sh
+This will create project and push changes to the remote heroku repository
