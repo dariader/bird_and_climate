@@ -14,4 +14,6 @@ app_class.layout = html.Div([
 ])
 
 if __name__ == '__main__':
-    app_class.run_server(debug=True)
+    app_class.run_server(debug=True)  # launch app on heroku
+    app_class.run_server(host="0.0.0.0", port=8050, debug=True)  # launch app locally
+
