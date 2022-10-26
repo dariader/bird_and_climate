@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  IMAGE: https://ghcr.io/$(echo $GITHUB_REPOSITORY)/app
+  IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY)/app
 
 jobs:
 
