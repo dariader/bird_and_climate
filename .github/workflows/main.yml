@@ -22,11 +22,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull image
         run: |
-          docker pull ${{ env.IMAGE }}:version0 || true
+          docker pull ${{ env.IMAGE }}:latest || true
       - name: Build Image
         run: |
           docker build \
-            --cache-from ${{ env.IMAGE }}:version0 \
+            --cache-from ${{ env.IMAGE }}:latest \
             --tag version0 \
             --file ./src/Dockerfile.prod \
             "./src"
