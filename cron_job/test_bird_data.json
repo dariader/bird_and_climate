@@ -1,0 +1,16 @@
+[
+  {
+    "speciesCode": "categr",
+    "comName": "Cattle Egret",
+    "sciName": "Bubulcus ibis",
+    "locId": "L21385774",
+    "locName": "Vrysoulles and surrounding area",
+    "obsDt": "2022-11-03 06:30",
+    "howMany": 10,
+    "lat": 35.0818734,
+    "lng": 33.8747264,
+    "obsValid": "True",
+    "obsReviewed": "False",
+    "locationPrivate": "True",
+    "subId": "S121771234"
+}]

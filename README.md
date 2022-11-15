@@ -40,6 +40,24 @@ Data:
 5) We will use data from the Global Biodiversity Information Facility and a subset of the UKCP09 climate data from the UK Met Office.
 
 
+**How to store credentials**
+
+for local usage of app: 
+
+1. In `~/.bashrc` file: 
+
+`export BIRD_DB_PASSW = '<passw>'`
+
+`export EBIRD_API_KEY = '<api_key>'`
+
+2. Then run in terminal
+`source ~/.bashrc`
+and optionally reload IDE
+
+
+how to pass credentials to docker: 
+
+
 **How to run in heroku**
 
 chmod +x run_app.sh
@@ -48,3 +66,16 @@ This will create project and push changes to the remote heroku repository
 **How to dockerize**
 
 sudo docker build -t docker_bird_and_climate ./src
+
+8051 - outer
+8050 - inner
+
+sudo docker run --detach -p 8051:8050 docker_bird_and_climate 
+
+
+**How to create a db in docker**
+
+1. create an instance of mysql database
+docker run -d -p 3306:3306 -v /home/daria/PycharmProjects/bird_and_climate/db_src/conf:/etc/mysql/conf.d -v /home/daria/PycharmProjects/bird_and_climate/db_src/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=<passw> --name docker_mysql c2c2eba5ae85
+3. create an image 
+docker build -t docker_mysql

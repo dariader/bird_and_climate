@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  docker_mysql:
+    image: mysql:8
+    volumes:
+      - /home/daria/PycharmProjects/bird_and_climate/db_src/conf:/etc/mysql/conf.d
+      - /home/daria/PycharmProjects/bird_and_climate/db_src/data:/var/lib/mysql
+    environment:
+      #will it actually create a new db if there's no db present?
+      MYSQL_ROOT_PASSWORD: $BIRD_DB_PASSW
+      MYSQL_DATABASE: bird_info
+    ports:
+      - 3306:3306
+
+#
+#volumes:
+#  todo-mysql-data:
