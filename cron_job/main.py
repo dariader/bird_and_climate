@@ -1,5 +1,16 @@
-from db_checkers.check_db_status import run_checks
+from db_checkers.check_db_status import CheckDBStatus
+from db_modifiers.update_bird_records import UpdateBirdRecords
 
 def runner():
-    # check there's a non-empty table
-    db_status = run_checks() # if [True, True ] -- all ok, get latest data, run update
+    # check database status:
+    CheckDBStatus()
+    # update records
+    UpdateBirdRecords()
+    # update processed tables
+
+
+
+def __main__():
+    runner()
+
+__main__()

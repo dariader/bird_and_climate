@@ -1,0 +1,3 @@
+
+HIST_DATA_DIR = "../../db_src/bird_historical_data/"
+HIST_DATA_ID = "0163061-220831081235567"

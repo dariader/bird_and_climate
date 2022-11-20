@@ -4,7 +4,6 @@ import os
 
 api_key = os.getenv("EBIRD_API_KEY")
 
-
 def retrieve_data(last_n_days, location_code="CY"):
     """
     Function to download new data from ebird db
