@@ -64,6 +64,7 @@ class CheckDBStatus:
         try:
             print(f"Creating table CY: ")
             cur.execute(table_description)
+            print(f"Done")
         except mysql.connector.Error as err:
             # this should be not the case
             if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:

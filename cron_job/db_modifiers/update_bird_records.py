@@ -36,7 +36,13 @@ class UpdateBirdRecords:
         self.dif_days = difference.days
 
     def call_records_from_ebird(self):
-        self.new_data = retrieve_data(self.dif_days)
+        if self.dif_days > 30:
+            #todo: fix this, we either need monthly updated dataset from ebird,
+            # or we need to extract data date by date, which is expencive
+            self.new_data = retrieve_data(30) # 30 days back is the maximum value
+        else:
+            self.new_data = retrieve_data(self.dif_days)
+
 
     def insert_into_db(self):
         cur = self.cnx.cursor()
@@ -48,8 +54,9 @@ class UpdateBirdRecords:
             prepared_dict = {k.lower(): v for k, v in i.items()} # keys in db in lowercase
             keys_overlap = columns_cy.intersection(set([_ for _ in prepared_dict.keys()]))
             i_keys = ', '.join(keys_overlap)
-            i_values = '"' + '", "'.join([str(i.get(key)) for key in keys_overlap]) + '"'  # rewrite
+            i_values = '"' + '", "'.join([str(prepared_dict.get(key)) if key !="None" else "NULL" for key in keys_overlap]) + '"'  # rewrite
             #todo: check that there're some values before insert
+            print(i)
             cur.execute(f"INSERT INTO CY ({i_keys}) VALUES ({i_values});")
 
     def write_logs(self):

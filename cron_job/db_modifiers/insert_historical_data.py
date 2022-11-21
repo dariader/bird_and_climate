@@ -5,19 +5,20 @@ from mysql.connector import errorcode
 import os
 import shutil
 import pandas as pd
-
-HIST_DATA_DIR = "../../db_src/bird_historical_data/"
+PROJ_PATH = "/home/daria/PycharmProjects/bird_and_climate" # should be set automatically, stored in env var
+HIST_DATA_DIR = f"{PROJ_PATH}/db_src/bird_historical_data"
 HIST_DATA_ID = "0163061-220831081235567"
-
 
 def populate_with_hist_data(cnx):
     cur = cnx.cursor()
-    shutil.unpack_archive(f"{HIST_DATA_DIR}{HIST_DATA_ID}.zip", f"{HIST_DATA_DIR}")
-
+    print('preparing historical data...')
+    shutil.unpack_archive(f"{HIST_DATA_DIR}/{HIST_DATA_ID}.zip", f"{HIST_DATA_DIR}")
+    print('prepared historical data...')
     cur.execute("USE bird_info;")
     tablename = "CY"
 
-    hist_data = pd.read_table(f"{HIST_DATA_DIR}{HIST_DATA_ID}.csv")
+    print('prepared historical data...')
+    hist_data = pd.read_table(f"{HIST_DATA_DIR}/{HIST_DATA_ID}.csv")
     hist_data = hist_data[
         ['species', 'stateProvince', 'individualCount', 'decimalLatitude', 'decimalLongitude', 'eventDate']]
 
@@ -30,6 +31,7 @@ def populate_with_hist_data(cnx):
         "eventDate": "obsDt"})
 
     hist_data.howMany = hist_data.howMany.replace(np.NAN, 0)
+    print('inserting...')
     for i in hist_data.to_dict('records'):
         i_keys = ', '.join([k.lower() for k in i.keys()])
         i_values ='"' + '", "'.join([str(j) for j in i.values()]) + '"' # rewrite
