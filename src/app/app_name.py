@@ -1,5 +1,4 @@
 import dash
-import mysql.connector
 import plotly.express as px
 import pandas as pd
 import numpy as np
@@ -7,6 +6,7 @@ from dash import Dash, dcc, html, Input, Output, dash_table
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 import os
+from cron_job.utils import open_connection
 from flask_caching import Cache
 
 """
@@ -26,7 +26,7 @@ def connect_to_db():
     Connects to db port
     :return: connection link
     """
-    cnx = mysql.connector.connect(user='root', password=DB_PASSW, host='localhost', database='bird_info')
+    cnx = open_connection()
     return cnx
 
 
@@ -35,9 +35,12 @@ def get_data_from_db(cnx, table_name):
     A query to return table by the name passed to the function
     :return: SQL query
     """
-    cur = cnx.cursor(dictionary=True)
+    cur = cnx.cursor()
+    cur2 = cnx.cursor()
     cur.execute(f"SELECT * FROM {table_name};")
-    return pd.DataFrame.from_records(cur.fetchall())
+    cur2.execute(f"SELECT column_name FROM information_schema.columns where table_name = 'cy';")
+    colnames = [_[0] for _ in cur2.fetchall()]
+    return pd.DataFrame.from_records(cur.fetchall(), columns=colnames)
 
 
 def check_data(cnx, table_name):
@@ -45,7 +48,7 @@ def check_data(cnx, table_name):
     An SQL query to remove duplicates in the data
     :return:
     """
-    cur = cnx.cursor(dictionary=True)
+    cur = cnx.cursor()
     cur.execute(f"SELECT speciesCode FROM {table_name};")
 
 
@@ -80,17 +83,17 @@ def generate_table(df):
 
 external_stylesheets = [dbc.themes.SPACELAB]
 cnx = connect_to_db()
-df = get_data_from_db(cnx, "CY")
-df['howMany'] = df['howMany'].replace(np.nan, 0)
-fig = px.histogram(df, x="sciName", y="howMany", color="sciName")
+df = get_data_from_db(cnx, "CY")[1:100]
+df['howmany'] = df['howmany'].replace(np.nan, 0).astype('float')
+fig = px.histogram(df, x="sciname", y="howmany", color="sciname")
 
 scale = 10
 fig_map = px.scatter_mapbox(
     df,
     lon='lng',
     lat='lat',
-    text='comName',
-    size='howMany',
+    text='comname',
+    size='howmany',
     size_max=10,
     mapbox_style="open-street-map",
 )
@@ -152,7 +155,7 @@ tabs = dbc.Tabs(
     [
         dbc.Tab(tab1_content, label="Table"),
         dbc.Tab(tab2_content, label="Barplot"),
-       # dbc.Tab(tab3_content, label="Map"),
+        dbc.Tab(tab3_content, label="Map"),
         dbc.Tab(
             "This tab's content is never seen", label="Tab 3", disabled=True
         ),
