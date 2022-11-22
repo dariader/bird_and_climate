@@ -1,8 +1,4 @@
 import logging
-
-import mysql.connector
-from mysql.connector import errorcode
-from cron_job.utils import open_connection
 from cron_job.db_modifiers.insert_historical_data import *
 import os
 
@@ -18,8 +14,8 @@ class CheckDBStatus:
 
     def _table_in_db_exists(self):
         cur = self.cnx.cursor()
-        cur.execute('SHOW TABLES;')
-        return (self.TABLENAME,) in cur.fetchall()
+        cur.execute(f"select exists(SELECT table_name FROM information_schema.tables WHERE table_schema='public');")
+        return cur.fetchall()[0][0]
 
     def _table_not_empty(self):
         cur = self.cnx.cursor()
@@ -37,12 +33,13 @@ class CheckDBStatus:
             print(self._table_in_db_exists())
             db_ok = [self._table_in_db_exists(), self._table_not_empty()]
         else:
+            print(self._table_in_db_exists())
             db_ok = [False, False]
         return db_ok
 
     def _create_database_schema_cy(self):
         cur = self.cnx.cursor()
-        table_description = (
+        table_description_mysql = (
             "CREATE TABLE CY ("
             "`index` int(11) NOT NULL AUTO_INCREMENT,"
             "`speciescode` VARCHAR(255),"
@@ -60,6 +57,23 @@ class CheckDBStatus:
             "`subid` VARCHAR(255),"
             "  PRIMARY KEY (`index`)"
             ") ENGINE=InnoDB;")
+
+        table_description = (
+            "CREATE TABLE CY ("
+            "index serial NOT NULL,"
+            "speciescode VARCHAR,"
+            "comname VARCHAR,"
+            "sciname VARCHAR,"
+            "locid VARCHAR,"
+            "locname VARCHAR,"
+            "obsdt DATE,"
+            "howmany NUMERIC,"
+            "lat DECIMAL,"
+            "lng DECIMAL,"
+            "obsvalid VARCHAR,"
+            "obsreviewed VARCHAR,"
+            "locationprivate VARCHAR,"
+            "subid VARCHAR);")
 
         try:
             print(f"Creating table CY: ")

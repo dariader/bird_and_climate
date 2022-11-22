@@ -1,7 +1,10 @@
 from cron_job.utils import open_connection
 import mysql.connector
 class UpdateDependantTables:
-
+    """
+    This class seems to be appropriate for work with postgres,
+    as setting up regular updates in mysql is difficult...
+    """
     def __init__(self):
         self.cnx = open_connection()
         self.table_config = self.table_config_dict()
@@ -24,6 +27,10 @@ class UpdateDependantTables:
         pass
 
     def table_config_dict(self, action="CREATE"):
+        """
+        :param action: "CREATE" or "ALTER", haven't yet decided the best way to update child tables
+        :return:
+        """
         dct = {
             "CY_GROUPED_LOC": f"{action} TABLE CY_GROUPED_LOC"
                              f" SELECT locname, COUNT(howMany) AS record_count, SUM(howmany) AS record_sum "

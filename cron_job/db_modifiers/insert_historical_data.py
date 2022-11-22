@@ -1,5 +1,5 @@
 import mysql.connector
-from cron_job.utils import open_connection
+from cron_job.utils import open_connection, format_insert_values, format_insert_keys
 import numpy as np
 from mysql.connector import errorcode
 import os
@@ -14,7 +14,6 @@ def populate_with_hist_data(cnx):
     print('preparing historical data...')
     shutil.unpack_archive(f"{HIST_DATA_DIR}/{HIST_DATA_ID}.zip", f"{HIST_DATA_DIR}")
     print('prepared historical data...')
-    cur.execute("USE bird_info;")
     tablename = "CY"
 
     print('prepared historical data...')
@@ -33,9 +32,9 @@ def populate_with_hist_data(cnx):
     hist_data.howMany = hist_data.howMany.replace(np.NAN, 0)
     print('inserting...')
     for i in hist_data.to_dict('records'):
-        i_keys = ', '.join([k.lower() for k in i.keys()])
-        i_values ='"' + '", "'.join([str(j) for j in i.values()]) + '"' # rewrite
-        cur.execute(f"INSERT INTO CY ({i_keys}) VALUES ({i_values});")
+        i_keys = format_insert_keys(i.keys())
+        i_values = format_insert_values(i.values(), fix_null=False)
+        cur.execute(f'INSERT INTO CY ({i_keys}) VALUES ({i_values});')
 
     cnx.commit()
     cur.close()

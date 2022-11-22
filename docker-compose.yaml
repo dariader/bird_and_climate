@@ -12,7 +12,17 @@ services:
       MYSQL_DATABASE: bird_info
     ports:
       - 3306:3306
-
+  docker_postgresql:
+    image: postgres:13
+    volumes:
+      - /home/daria/PycharmProjects/bird_and_climate/postgresql_src/data:/var/lib/postgresql/data
+    environment:
+      #will it actually create a new db if there's no db present?
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: $BIRD_DB_PASSW
+      POSTGRES_DB: bird_info
+    ports:
+      - '5432:5432'
 #
 #volumes:
 #  todo-mysql-data:
