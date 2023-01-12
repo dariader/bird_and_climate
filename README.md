@@ -7,6 +7,9 @@ The aim of this project is to make Cyprus natural and geological sights more vis
 
 This app is inspired by the project #664 from https://app.datacamp.com/learn/projects/664
 The aim of this repo to demonstrate my skills in python, docker, data analysis and visualization
+Contains two parts: 
+1) birds and climate part -- to predict bird species distribution
+2) geological part -- to visualise the geological history of the island [TBD]
 
 ### Intro: 
 _The technical description of desired app_
@@ -17,14 +20,14 @@ Tech Stack:
 3) Deploys on local server on heroku (while this is free)
 4) Code checks: flake8 (https://melevir.medium.com/pycharm-loves-flake-671c7fac4f52)
 5) jenkins autotest on github (https://www.jenkins.io/solutions/python/)
+_Birds and climate part_
 
 App UI:
-1) map depicting climate in UK
+1) map depicting climate in Cyprus
 2) selector to choose bird species
-3) Filter the climate data to compare 1970 and 2010.
 
 Data processing:
-1) no data is stored, it is retrieved and processed on the fly each time
+1) no data is stored, it is retrieved and processed on the fly each time the container is created
 1) get climate and bird data
 2) merge by dates as precise as possible
 3) make pivot tables, where climate condition is rows and bird species are columns
