@@ -1,12 +1,14 @@
-**Project Description:**
+## Pitch
+Cyprus is a dazzling place. This island is literally a museum, but if you don't know where to look, you won't see the exibition. 
+How great would it be to go somewhere, knowing what was the story of this place? To know who lives there?
+The aim of this project is to make Cyprus natural and geological sights more visible.  
+
+## Project Description
 
 This app is inspired by the project #664 from https://app.datacamp.com/learn/projects/664
 The aim of this repo to demonstrate my skills in python, docker, data analysis and visualization
 
-_Intro:_ 
-
-Climate is changing around the world. This change is impacting species of wild animals. In this project, we will use four decades of bird sightings and climate data to predict the distribution of a bird species in the Scottish Highlands and see how its distribution changed over the years.
-
+### Intro: 
 _The technical description of desired app_
 
 Tech Stack:
@@ -39,6 +41,7 @@ Data:
 2) We can find the CRS string for any specific projection at spatialreference.org.
 5) We will use data from the Global Biodiversity Information Facility and a subset of the UKCP09 climate data from the UK Met Office.
 
+### How to run locally
 
 **How to store credentials**
 
